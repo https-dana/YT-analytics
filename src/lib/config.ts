@@ -14,6 +14,11 @@ export const config = {
   //  - youtube.readonly       -> YouTube Data API (channel/video/comment info)
   //  - yt-analytics.readonly  -> YouTube Analytics API (views, watch time,
   //                              traffic sources, demographics, ...)
+  // Both APIs are authorized via the user's Google OAuth token, per the
+  // requirement ("не тільки YT Data API а і також YouTube Analytics, Google
+  // OAuth"). youtube.readonly is a sensitive scope, so publishing this app
+  // for any Google account requires going through Google's verification
+  // review (see README).
   scopes: [
     "https://www.googleapis.com/auth/youtube.readonly",
     "https://www.googleapis.com/auth/yt-analytics.readonly",

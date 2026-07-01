@@ -16,7 +16,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="container" style={{ paddingTop: "clamp(24px, 4vw, 56px)", paddingBottom: "clamp(32px, 6vw, 80px)" }}>
+    <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
         <div>
           <div className="eyebrow">Панель каналів</div>

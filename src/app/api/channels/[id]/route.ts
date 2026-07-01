@@ -30,7 +30,8 @@ export async function GET(
     subscriberCount: channel.subscriberCount,
     viewCount: channel.viewCount,
     videoCount: channel.videoCount,
-    connectedAt: channel.connectedAt
+    connectedAt: channel.connectedAt,
+    publishedAt: channel.publishedAt
   });
 }
 

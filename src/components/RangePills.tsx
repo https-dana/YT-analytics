@@ -3,7 +3,8 @@
 const OPTIONS = [
   { label: "7 днів", value: 7 },
   { label: "28 днів", value: 28 },
-  { label: "90 днів", value: 90 }
+  { label: "90 днів", value: 90 },
+  { label: "Увесь час", value: -1 }
 ];
 
 export function RangePills({

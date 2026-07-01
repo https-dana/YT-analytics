@@ -6,7 +6,7 @@ import { fetchChannelVideos } from "@/lib/youtube";
 import { mockVideos } from "@/lib/mock";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const channel = channelStore.get(params.id);

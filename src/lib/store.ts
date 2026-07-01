@@ -21,6 +21,7 @@ export type ConnectedChannel = {
   expiryDate: number; // ms epoch
   scope: string;
   connectedAt: number; // ms epoch
+  publishedAt?: string; // channel creation date, for "all time" ranges
 };
 
 const DATA_DIR = process.env.DATA_DIR

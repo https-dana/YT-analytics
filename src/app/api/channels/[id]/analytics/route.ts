@@ -29,9 +29,12 @@ export async function GET(
   if (!channel) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const { searchParams } = new URL(req.url);
-  const rangeDays = Number(searchParams.get("range") || 28);
+  const rangeParam = searchParams.get("range") || "28";
   const endDate = new Date();
-  const startDate = new Date(endDate.getTime() - rangeDays * 86_400_000);
+  const startDate =
+    rangeParam === "all"
+      ? new Date(channel.publishedAt || Date.now() - 5 * 365 * 86_400_000)
+      : new Date(endDate.getTime() - Number(rangeParam) * 86_400_000);
 
   if (config.mockMode) {
     const videos = mockVideos(channel.id, 20);
@@ -55,6 +58,7 @@ export async function GET(
 
   try {
     const auth = await getAuthorizedClient(channel);
+    const isAllTime = rangeParam === "all";
     const [timeseries, trafficSources, deviceBreakdown, demographics, geography, topVideosRaw, videos] =
       await Promise.all([
         fetchDailyTimeseries(auth, startDate, endDate),
@@ -67,11 +71,30 @@ export async function GET(
       ]);
 
     const titleById = new Map(videos.map((v) => [v.id, v]));
-    const topVideos = topVideosRaw.map((row) => ({
-      ...row,
-      title: titleById.get(row.videoId)?.title || row.videoId,
-      thumbnail: titleById.get(row.videoId)?.thumbnail || ""
-    }));
+
+    // "All time" uses each video's own lifetime view/like/comment counters
+    // (YouTube Data API - always populated, no processing lag or privacy
+    // threshold) instead of the YouTube Analytics per-period breakdown,
+    // which can legitimately come back empty/zero for very recent activity.
+    const topVideos = isAllTime
+      ? [...videos]
+          .sort((a, b) => b.viewCount - a.viewCount)
+          .slice(0, 10)
+          .map((v) => ({
+            videoId: v.id,
+            title: v.title,
+            thumbnail: v.thumbnail,
+            views: v.viewCount,
+            likes: v.likeCount,
+            comments: v.commentCount,
+            watchTimeMinutes: 0,
+            avgViewDurationSeconds: null as number | null
+          }))
+      : topVideosRaw.map((row) => ({
+          ...row,
+          title: titleById.get(row.videoId)?.title || row.videoId,
+          thumbnail: titleById.get(row.videoId)?.thumbnail || ""
+        }));
 
     return NextResponse.json({
       range: { start: startDate.toISOString(), end: endDate.toISOString() },

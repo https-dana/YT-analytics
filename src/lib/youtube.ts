@@ -9,6 +9,7 @@ export type ChannelSummary = {
   subscriberCount: number;
   viewCount: number;
   videoCount: number;
+  publishedAt?: string; // channel creation date, used for "all time" ranges
 };
 
 export type VideoSummary = {
@@ -38,10 +39,16 @@ function parseIsoDuration(iso: string): number {
   return (Number(h) || 0) * 3600 + (Number(mnt) || 0) * 60 + (Number(s) || 0);
 }
 
+// Both the YouTube Data API v3 and YouTube Analytics API calls in this app
+// are authorized with the signed-in user's own OAuth token (per the
+// requirement: Data API AND Analytics API, both via Google OAuth) - not a
+// server-side API key. This requires the `youtube.readonly` scope, which
+// Google classifies as sensitive, so the OAuth consent screen needs to go
+// through Google's verification review before it can serve any Google
+// account (see README for the "Testing" vs "Production" tradeoff).
+
 /** Fetches the signed-in user's own channel (mine=true). */
-export async function fetchOwnChannel(
-  auth: OAuth2Client
-): Promise<ChannelSummary> {
+export async function fetchOwnChannel(auth: OAuth2Client): Promise<ChannelSummary> {
   const youtube = google.youtube({ version: "v3", auth });
   const res = await youtube.channels.list({
     part: ["snippet", "statistics"],
@@ -56,7 +63,8 @@ export async function fetchOwnChannel(
     customUrl: c.snippet?.customUrl || undefined,
     subscriberCount: Number(c.statistics?.subscriberCount || 0),
     viewCount: Number(c.statistics?.viewCount || 0),
-    videoCount: Number(c.statistics?.videoCount || 0)
+    videoCount: Number(c.statistics?.videoCount || 0),
+    publishedAt: c.snippet?.publishedAt || undefined
   };
 }
 

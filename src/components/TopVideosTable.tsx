@@ -11,7 +11,7 @@ export type TopVideoRow = {
   watchTimeMinutes: number;
   likes: number;
   comments: number;
-  avgViewDurationSeconds: number;
+  avgViewDurationSeconds: number | null;
 };
 
 type CommentItem = {
@@ -110,7 +110,10 @@ export function TopVideosTable({
             <Metric label="перегляди" value={formatCompact(v.views)} />
             <Metric label="лайки" value={formatCompact(v.likes)} />
             <Metric label="коментарі" value={formatCompact(v.comments)} />
-            <Metric label="серед. перегляд" value={formatDuration(v.avgViewDurationSeconds)} />
+            <Metric
+              label="серед. перегляд"
+              value={v.avgViewDurationSeconds != null ? formatDuration(v.avgViewDurationSeconds) : "—"}
+            />
           </button>
 
           {openId === v.videoId && (

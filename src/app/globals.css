@@ -15,7 +15,6 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
-  --content-pad: clamp(16px, 2.4vw, 32px);
 }
 
 * {
@@ -26,19 +25,10 @@ html,
 body {
   padding: 0;
   margin: 0;
-  width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-}
-
-main {
-  width: 100%;
 }
 
 a {
@@ -57,10 +47,9 @@ button {
 }
 
 .container {
-  width: 100%;
-  max-width: none;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 var(--content-pad);
+  padding: 0 24px;
 }
 
 .mono {
@@ -78,8 +67,7 @@ button {
 .h1 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  line-height: 1.08;
+  font-size: 34px;
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -87,15 +75,12 @@ button {
 .h2 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-  line-height: 1.25;
+  font-size: 20px;
   margin: 0;
 }
 
 .muted {
   color: var(--muted);
-  font-size: clamp(1rem, 1.1vw, 1.08rem);
-  line-height: 1.6;
 }
 
 .panel {

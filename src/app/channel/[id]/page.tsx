@@ -38,7 +38,8 @@ export default function ChannelPage() {
 
   useEffect(() => {
     setLoadingAnalytics(true);
-    fetch(`/api/channels/${id}/analytics?range=${range}`)
+    const rangeParam = range === -1 ? "all" : String(range);
+    fetch(`/api/channels/${id}/analytics?range=${rangeParam}`)
       .then((r) => r.json())
       .then(setAnalytics)
       .finally(() => setLoadingAnalytics(false));
@@ -141,7 +142,7 @@ export default function ChannelPage() {
               padding: 24
             }}
           >
-            <StatReadout label={`Перегляди · ${range} дн.`} value={formatCompact(totals.views)} />
+            <StatReadout label={`Перегляди · ${range === -1 ? "увесь час" : range + " дн."}`} value={formatCompact(totals.views)} />
             <StatReadout
               label="Годин перегляду"
               value={formatCompact(Math.round(totals.watchTimeMinutes / 60))}
@@ -204,8 +205,24 @@ export default function ChannelPage() {
             </div>
           </div>
 
-          <SectionTitle>Найкращі відео за період · коментарі</SectionTitle>
-          <TopVideosTable channelId={channel.id} videos={analytics.topVideos} />
+          <SectionTitle>
+            {range === -1 ? "Найкращі відео за весь час" : "Найкращі відео за період"} · коментарі
+          </SectionTitle>
+          {analytics.topVideos.every((v: any) => v.views === 0) ? (
+            <div
+              className="panel"
+              style={{ padding: "28px 24px", textAlign: "center" }}
+            >
+              <div className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
+                Дані по відео за цей період ще не готові. YouTube Analytics
+                оновлює статистику з затримкою до 24–48 годин, особливо для
+                щойно завантажених відео. Спробуйте більший діапазон
+                («Увесь час») або перевірте пізніше.
+              </div>
+            </div>
+          ) : (
+            <TopVideosTable channelId={channel.id} videos={analytics.topVideos} />
+          )}
         </>
       )}
     </div>

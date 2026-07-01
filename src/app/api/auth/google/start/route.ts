@@ -3,9 +3,11 @@ import { buildAuthUrl } from "@/lib/google";
 import { config } from "@/lib/config";
 import crypto from "crypto";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   if (config.mockMode) {
-    return NextResponse.redirect(new URL("/connect", req.url));
+    return NextResponse.redirect(new URL("/connect", config.appUrl));
   }
   const state = crypto.randomBytes(16).toString("hex");
   const url = buildAuthUrl(state);

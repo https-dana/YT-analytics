@@ -12,7 +12,8 @@ export const MOCK_PERSONAS: ChannelSummary[] = [
     customUrl: "@kitchenlabua",
     subscriberCount: 184_300,
     viewCount: 21_400_000,
-    videoCount: 312
+    videoCount: 312,
+    publishedAt: "2019-03-14T00:00:00.000Z"
   },
   {
     id: "mock-codecoffee",
@@ -21,7 +22,8 @@ export const MOCK_PERSONAS: ChannelSummary[] = [
     customUrl: "@codeandcoffee",
     subscriberCount: 62_900,
     viewCount: 5_120_000,
-    videoCount: 148
+    videoCount: 148,
+    publishedAt: "2021-06-02T00:00:00.000Z"
   },
   {
     id: "mock-retrogaming",
@@ -30,7 +32,8 @@ export const MOCK_PERSONAS: ChannelSummary[] = [
     customUrl: "@retrogaminghub",
     subscriberCount: 401_050,
     viewCount: 58_900_000,
-    videoCount: 587
+    videoCount: 587,
+    publishedAt: "2016-11-20T00:00:00.000Z"
   },
   {
     id: "mock-mandarintravel",
@@ -39,7 +42,8 @@ export const MOCK_PERSONAS: ChannelSummary[] = [
     customUrl: "@mandarintravel",
     subscriberCount: 29_800,
     viewCount: 2_030_000,
-    videoCount: 76
+    videoCount: 76,
+    publishedAt: "2022-09-08T00:00:00.000Z"
   }
 ];
 
